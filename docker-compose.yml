@@ -3,12 +3,12 @@ version: '3.8'
 services:
   student-service:
     build: .
-    image: mariasb/ht-232-12-maria-sb
-    container_name: student-service-compose
+    image: mariasb/ht-232-12-maria-sulca:latest
+    container_name: student-service
     ports:
-      - "8091:8093"
+      - "8091:8090"
     environment:
-      - SERVER_PORT=8093
+      - SERVER_PORT=8090
       - SPRING_R2DBC_URL=r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     depends_on:
       - mysql
