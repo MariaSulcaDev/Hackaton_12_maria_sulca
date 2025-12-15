@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maria-12-deployment
+  namespace: maria-12-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: maria-student
+  template:
+    metadata:
+      labels:
+        app: maria-student
+    spec:
+      containers:
+      - name: student-service
+        image: mariasb/ht-232-12-maria-sulca:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9090
+        envFrom:
+        - secretRef:
+            name: maria-12-secret
