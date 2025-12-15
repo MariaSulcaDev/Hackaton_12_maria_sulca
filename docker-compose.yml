@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  student-service:
+    build: .
+    image: mariasb/ht-232-12-maria-sb
+    container_name: student-service-compose
+    ports:
+      - "8091:8093"
+    environment:
+      - SERVER_PORT=8093
+      - SPRING_R2DBC_URL=r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    depends_on:
+      - mysql
+      - nginx
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: studentdb
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8092:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
